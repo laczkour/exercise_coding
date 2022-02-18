@@ -8,8 +8,19 @@
   align-items: center;
   width: 2em;
   height: 2em;
-
+  cursor: pointer;
   padding: 1em;
   text-align: center;
   border: 1px solid;
+  border-radius: 0.8em;
+  margin: -0.5px;
+}
+
+.game-row .invalid {
+  background: grey;
+  cursor: default;
+}
+
+.game-row .used {
+  visibility: hidden;
 }
