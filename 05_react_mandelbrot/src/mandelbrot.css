@@ -1,0 +1,32 @@
+.pixelRow {
+  display: flex;
+}
+
+.pixel {
+  width: 8px;
+  height: 8px;
+}
+
+.buttonDiv {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  border: solid 2px black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonDiv:hover {
+  background: lightblue;
+}
+
+.Mandelbrot {
+}
+
+.buttonStorage {
+  display: flex;
+  width: max-content;
+}
