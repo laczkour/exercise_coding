@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import './mandelbrot.css';
+import { useEffect, useRef, useState } from "react";
+import "./mandelbrot.css";
 
 const MAX_ITERATION = 255;
 
@@ -117,7 +117,7 @@ const update = (canvas, setCanvas) => {
 
 function _color(value) {
   if (value[1]) {
-    return 'white';
+    return "white";
   } else {
     const iteration = value[0];
     const r = (iteration % 32) * 8;
@@ -145,7 +145,11 @@ function Mandelbrot() {
   //console.log('updated main');
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.timeEnd("rendering + timeout");
+      console.time("calculation        ");
       update(currentCanvas.current, setCanvas);
+      console.timeEnd("calculation        ");
+      console.time("rendering + timeout");
     }, 10);
 
     return () => clearTimeout(timer);
@@ -165,7 +169,7 @@ function Mandelbrot() {
         <Pixel
           pixel={pixel}
           onClick={onClick}
-          key={rowIndex + ' ' + columnIndex}
+          key={rowIndex + " " + columnIndex}
         ></Pixel>
       );
     });
