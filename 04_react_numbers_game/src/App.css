@@ -1,3 +1,45 @@
+.background {
+  background-image: url("/public/subtle-prism.svg");
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  z-index: -1;
+}
+
+main {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  -webkit-animation: introLoad 1.5s forwards;
+  animation: introLoad 1.5s forwards;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-style: normal;
+}
+
+.game-board {
+  border: double gray;
+  background-color: #eeffff;
+  padding: 1em;
+}
+
+.game-board.second-player {
+  background-color: #ffeeee;
+}
+
 .game-row {
   display: flex;
 }
@@ -12,15 +54,69 @@
   padding: 1em;
   text-align: center;
   border: 1px solid;
-  border-radius: 0.8em;
+  border-radius: 1em;
   margin: -0.5px;
+  background-color: white;
 }
 
-.game-row .invalid {
-  background: grey;
+.game-square:hover {
+  background-color: rgb(69, 208, 233);
+}
+
+.game-board.second-player .game-square:hover {
+  background-color: rgb(233, 69, 69);
+}
+
+.game-square.invalid {
+  background-color: grey !important;
   cursor: default;
 }
 
-.game-row .used {
+.game-square.used {
   visibility: hidden;
+}
+
+.players {
+  display: flex;
+  justify-content: space-between;
+}
+
+.player {
+  margin-left: -2px;
+  flex: 0 0 40%;
+  font-size: 1.2 rem;
+  background-color: #eeeeee;
+}
+
+.player .score {
+  padding-left: 1em;
+}
+
+.player .next {
+  margin-top: 0.2em;
+  text-align: center;
+  font-size: 1.7rem;
+  font-style: italic;
+  background-color: #dddddd;
+}
+
+.player h1 {
+  padding-left: 1em;
+  font-size: 1.5rem;
+  color: rgb(233, 69, 69);
+}
+
+.player.first-player h1 {
+  color: rgb(69, 208, 233);
+}
+
+@keyframes introLoad {
+  from {
+    -webkit-clip-path: circle(0% at 50% 50%);
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    -webkit-clip-path: circle(100% at 50% 50%);
+    clip-path: circle(100% at 50% 50%);
+  }
 }

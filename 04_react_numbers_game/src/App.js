@@ -5,7 +5,7 @@ import Board from "./Board/Board";
 const defaultOptions = {
   boardSize: 6,
   minimum: -10,
-  maximum: 30,
+  maximum: 21,
 };
 
 const _rand = (min, max) => Math.floor(Math.random() * (max - min) + min);
@@ -31,7 +31,7 @@ const _generateInitialGameState = () => {
   const result = {
     options: defaultOptions,
     initialBoard: _generateGameBoard({ ...defaultOptions }),
-    players: [_generatePlayer("player1"), _generatePlayer("player2")],
+    players: [_generatePlayer("Blue Player"), _generatePlayer("Red Player")],
     next: {
       playerIndex: 0,
       rowOrColumn: "any",
@@ -44,8 +44,8 @@ const _generateInitialGameState = () => {
     row.map((square) => {
       return {
         value: square,
-        valid: _rand(0, 4) === 1 ? true : false,
-        used: _rand(0, 4) === 1 ? true : false,
+        valid: true,
+        used: false,
       };
     })
   );
@@ -62,19 +62,77 @@ function App() {
 
   const squarePressed = (rowIndex, columnIndex) => {
     const gs = { ...currentGameState.current };
-    console.log(rowIndex, columnIndex);
-    console.log(gs.board[rowIndex][columnIndex]);
-    gs.board[rowIndex][columnIndex].used = true;
+    //console.log(rowIndex, columnIndex);
+    //console.log(gs.board[rowIndex][columnIndex]);
+    const board = gs.board;
+    const clickedSquare = board[rowIndex][columnIndex];
+    const playerIndex = gs.next.playerIndex;
+    const boardSize = gs.options.boardSize;
+
+    if (!clickedSquare.valid || clickedSquare.used) {
+      return;
+    }
+
+    clickedSquare.used = true;
+    clickedSquare.valid = false;
+
+    const validColumn = playerIndex === 1 ? columnIndex : -1;
+    const validRow = playerIndex === 0 ? rowIndex : -1;
+    console.log("row: " + validRow, "column " + validColumn);
+    /* calculating the valid squares */
+    let atLeastOneValid = false;
+    for (let row = 0; row < boardSize; row++) {
+      for (let column = 0; column < boardSize; column++) {
+        const _square = board[row][column];
+        if (_square.used) continue;
+        const _valid = column === validColumn || row === validRow;
+        _square.valid = _valid;
+        atLeastOneValid |= _valid;
+      }
+    }
+
+    if (!atLeastOneValid) {
+      for (let row = 0; row < boardSize; row++) {
+        for (let column = 0; column < boardSize; column++) {
+          const _square = board[row][column];
+          _square.valid = true;
+        }
+      }
+    }
+
+    gs.players[playerIndex].score += clickedSquare.value;
+    gs.next.playerIndex = playerIndex === 0 ? 1 : 0;
+
+    gs.moves.push({ rowIndex: rowIndex, columnIndex: columnIndex });
+
     setGameState(gs);
   };
-
+  const arr = [0, 1];
   return (
     <div className="App">
+      <div className="background"></div>
       <header className="App-header">
         <h1>Szám összeadós kivonós játék</h1>
       </header>
       <main>
         <Board gameState={gameState} onClick={squarePressed} />
+        <div className="players">
+          {arr.map((i) => {
+            const playerName = gameState.players[i].name;
+            const isNext = gameState.next.playerIndex === i;
+            const score = gameState.players[i].score;
+            const isFirst = i === 0;
+            const className = isFirst ? "player first-player" : "player";
+
+            return (
+              <div className={className}>
+                <h1>{playerName}</h1>
+                <div className="score">Score: {score}</div>
+                {isNext ? <div className="next">Next</div> : null}
+              </div>
+            );
+          })}
+        </div>
       </main>
     </div>
   );
