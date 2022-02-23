@@ -34,6 +34,12 @@ h1 {
   border: double gray;
   background-color: #eeffff;
   padding: 1em;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 
 .game-board.second-player {
@@ -41,15 +47,19 @@ h1 {
 }
 
 .game-row {
+  flex-grow: 1;
+  flex-basis: 0;
   display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
 }
 
 .game-square {
+  flex-grow: 1;
+  flex-basis: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2em;
-  height: 2em;
   cursor: pointer;
   padding: 1em;
   text-align: center;
@@ -126,5 +136,28 @@ h1 {
   to {
     -webkit-clip-path: circle(100% at 50% 50%);
     clip-path: circle(100% at 50% 50%);
+  }
+}
+
+@media only screen and (min-width: 420px) and (max-width: 540px) {
+  .game-board {
+    width: 400px;
+    height: 400px;
+    padding: 0.5em;
+  }
+  .game-square {
+    padding: 0.5em;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .game-board {
+    width: 300px;
+    height: 300px;
+    padding: 3px;
+  }
+
+  .game-square {
+    padding: 0.1em;
   }
 }
