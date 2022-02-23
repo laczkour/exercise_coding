@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "04_react_numbers_game",
   "version": "0.1.0",
   "private": true,

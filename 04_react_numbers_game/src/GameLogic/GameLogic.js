@@ -11,7 +11,7 @@ export const createGameStateBySquarePress = (
   const boardSize = gs.options.boardSize;
 
   if (!clickedSquare.valid || clickedSquare.used) {
-    return;
+    return gs;
   }
 
   clickedSquare.used = true;
