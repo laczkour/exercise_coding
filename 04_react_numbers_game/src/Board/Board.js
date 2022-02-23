@@ -7,16 +7,20 @@ function Board({ gameState, onClick }) {
   }
   return (
     <div className={className}>
-      {gameState.board.map((row, index) => {
-        return (
-          <BoardRow
-            row={row}
-            key={index}
-            rowIndex={index}
-            onClick={onClick}
-          ></BoardRow>
-        );
-      })}
+      {gameState.victoryText !== null ? (
+        <div className="victory-text">{gameState.victoryText}</div>
+      ) : (
+        gameState.board.map((row, index) => {
+          return (
+            <BoardRow
+              row={row}
+              key={index}
+              rowIndex={index}
+              onClick={onClick}
+            ></BoardRow>
+          );
+        })
+      )}
     </div>
   );
 }

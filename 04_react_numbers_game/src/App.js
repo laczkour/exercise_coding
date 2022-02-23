@@ -3,7 +3,7 @@ import "./App.css";
 import Board from "./Board/Board";
 
 const defaultOptions = {
-  boardSize: 6,
+  boardSize: 5,
   minimum: -10,
   maximum: 21,
 };
@@ -31,13 +31,14 @@ const _generateInitialGameState = () => {
   const result = {
     options: defaultOptions,
     initialBoard: _generateGameBoard({ ...defaultOptions }),
-    players: [_generatePlayer("Blue Player"), _generatePlayer("Red Player")],
+    players: [_generatePlayer("Kék"), _generatePlayer("Piros")],
     next: {
       playerIndex: 0,
       rowOrColumn: "any",
       rowOrColumnIndex: -2,
     },
     moves: [],
+    victoryText: null,
   };
 
   result.board = result.initialBoard.map((row) =>
@@ -110,6 +111,10 @@ function App() {
     }
 
     if (!atLeastOneNotUsed) {
+      gs.victoryText =
+        (gs.players[0].score > gs.players[1].score
+          ? gs.players[0].name
+          : gs.players[1].name) + " Nyert!";
       //game end
     }
 
@@ -151,8 +156,8 @@ function App() {
             return (
               <div className={className}>
                 <h1>{playerName}</h1>
-                <div className="score">Score: {score}</div>
-                {isNext ? <div className="next">Next</div> : null}
+                <div className="score">Pontok: {score}</div>
+                {isNext ? <div className="next">Következő</div> : null}
               </div>
             );
           })}
