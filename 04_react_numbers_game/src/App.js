@@ -27,10 +27,12 @@ const _generatePlayer = (name) => {
   };
 };
 
-const _generateInitialGameState = () => {
+const _generateInitialGameState = (size) => {
+  const options = defaultOptions;
+  options.boardSize = size ?? options.boardSize;
   const result = {
-    options: defaultOptions,
-    initialBoard: _generateGameBoard({ ...defaultOptions }),
+    options: options,
+    initialBoard: _generateGameBoard({ ...options }),
     players: [_generatePlayer("Kék"), _generatePlayer("Piros")],
     next: {
       playerIndex: 0,
@@ -51,7 +53,6 @@ const _generateInitialGameState = () => {
     })
   );
 
-  console.log(result.board);
   return result;
 };
 
@@ -59,12 +60,12 @@ function App() {
   const [gameState, setGameState] = useState(_generateInitialGameState());
   const currentGameState = useRef(null);
 
+  const sizeInput = useRef(null);
+
   currentGameState.current = gameState;
 
   const squarePressed = (rowIndex, columnIndex) => {
     const gs = { ...currentGameState.current };
-    //console.log(rowIndex, columnIndex);
-    //console.log(gs.board[rowIndex][columnIndex]);
     const board = gs.board;
     const clickedSquare = board[rowIndex][columnIndex];
     const playerIndex = gs.next.playerIndex;
@@ -135,6 +136,11 @@ function App() {
     setGameState(gs);
   };
 
+  const restart = () => {
+    const size = parseInt(sizeInput.current.value);
+    setGameState(_generateInitialGameState(size));
+  };
+
   const arr = [0, 1];
 
   return (
@@ -154,13 +160,29 @@ function App() {
             const className = isFirst ? "player first-player" : "player";
 
             return (
-              <div className={className}>
+              <div className={className} key={i}>
                 <h1>{playerName}</h1>
                 <div className="score">Pontok: {score}</div>
                 {isNext ? <div className="next">Következő</div> : null}
               </div>
             );
           })}
+        </div>
+        <div className="restart">
+          <span>Pálya méret </span>
+          <input
+            tabIndex={1}
+            type="number"
+            min={3}
+            max={10}
+            placeholder="Pálya méret"
+            width={100}
+            defaultValue={5}
+            ref={sizeInput}
+          />
+          <button tabIndex={0} onClick={restart}>
+            Újrakezdés
+          </button>
         </div>
       </main>
     </div>

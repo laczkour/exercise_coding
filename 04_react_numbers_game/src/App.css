@@ -74,20 +74,58 @@ h1 {
   background-color: white;
 }
 
+.restart {
+  padding: 5px;
+  margin-top: 5em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* padding: 1em;*/
+  text-align: center;
+  border-radius: 1em;
+  background-color: rgb(219, 219, 219);
+}
+
+.restart button {
+  margin-left: 10px;
+  display: flex;
+  flex-grow: 3;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+  padding: 1em;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 1em;
+  background-color: white;
+}
+
+.restart button:hover,
+button:focus {
+  background-color: rgb(69, 208, 233);
+}
+
+.restart input {
+  font-size: 1.5rem;
+  margin-left: 20px;
+  flex-grow: 1;
+  width: 100px;
+}
+
 .game-square.positive {
   color: #000000;
 }
 
 .game-square.negative {
-  color: #e94545;
+  color: #ff0000;
 }
 
 .game-square:hover {
-  background-color: rgb(69, 208, 233);
+  background-color: rgb(157, 219, 230);
 }
 
 .game-board.second-player .game-square:hover {
-  background-color: rgb(233, 69, 69);
+  background-color: rgb(230, 157, 157);
 }
 
 .game-square.invalid {
