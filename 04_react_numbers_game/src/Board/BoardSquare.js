@@ -4,9 +4,11 @@ function BoardSquare({ column, columnIndex, rowIndex, onClick }) {
   const colorClass = column.value < 0 ? " negative" : " positive";
   return (
     <div
-      onClick={() => onClick(rowIndex, columnIndex)}
+      data-rowIndex={rowIndex}
+      data-columnIndex={columnIndex}
+      onClick={onClick}
       className={"game-square" + validClass + usedClass + colorClass}
-      key={columnIndex + rowIndex}
+      key={columnIndex + " " + rowIndex}
     >
       {column.value}
     </div>
