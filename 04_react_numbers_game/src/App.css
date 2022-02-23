@@ -53,10 +53,18 @@ h1 {
   cursor: pointer;
   padding: 1em;
   text-align: center;
-  border: 1px solid;
+  border: 1px solid black;
   border-radius: 1em;
   margin: -0.5px;
   background-color: white;
+}
+
+.game-square.positive {
+  color: #000000;
+}
+
+.game-square.negative {
+  color: #e94545;
 }
 
 .game-square:hover {

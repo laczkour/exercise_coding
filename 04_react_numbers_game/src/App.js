@@ -35,7 +35,7 @@ const _generateInitialGameState = () => {
     next: {
       playerIndex: 0,
       rowOrColumn: "any",
-      rowOrColumnIndex: -1,
+      rowOrColumnIndex: -2,
     },
     moves: [],
   };
@@ -76,11 +76,28 @@ function App() {
     clickedSquare.used = true;
     clickedSquare.valid = false;
 
-    const validColumn = playerIndex === 1 ? columnIndex : -1;
-    const validRow = playerIndex === 0 ? rowIndex : -1;
+    let validColumn;
+    let validRow;
+
+    // if this is the second move, they can choose both rows, and columns
+    if (gs.next.rowOrColumnIndex === -2) {
+      gs.next.rowOrColumnIndex = -1;
+      validColumn = columnIndex;
+      validRow = rowIndex;
+    } else if (gs.next.rowOrColumnIndex === -1) {
+      gs.next.rowOrColumnIndex = rowIndex - gs.moves[0].rowIndex === 0 ? 1 : 0;
+      validColumn = gs.next.rowOrColumnIndex === 1 ? columnIndex : -1;
+      validRow = gs.next.rowOrColumnIndex === 0 ? rowIndex : -1;
+    } else {
+      gs.next.rowOrColumnIndex = gs.next.rowOrColumnIndex === 0 ? 1 : 0;
+      validColumn = gs.next.rowOrColumnIndex === 1 ? columnIndex : -1;
+      validRow = gs.next.rowOrColumnIndex === 0 ? rowIndex : -1;
+    }
+
     console.log("row: " + validRow, "column " + validColumn);
     /* calculating the valid squares */
     let atLeastOneValid = false;
+    let atLeastOneNotUsed = false;
     for (let row = 0; row < boardSize; row++) {
       for (let column = 0; column < boardSize; column++) {
         const _square = board[row][column];
@@ -88,7 +105,12 @@ function App() {
         const _valid = column === validColumn || row === validRow;
         _square.valid = _valid;
         atLeastOneValid |= _valid;
+        atLeastOneNotUsed |= !_square.used;
       }
+    }
+
+    if (!atLeastOneNotUsed) {
+      //game end
     }
 
     if (!atLeastOneValid) {
@@ -107,7 +129,9 @@ function App() {
 
     setGameState(gs);
   };
+
   const arr = [0, 1];
+
   return (
     <div className="App">
       <div className="background"></div>
