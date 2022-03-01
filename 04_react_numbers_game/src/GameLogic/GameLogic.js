@@ -51,6 +51,7 @@ export const createGameStateBySquarePress = (
   }
 
   if (!atLeastOneNotUsed) {
+    gs.players[playerIndex].score += clickedSquare.value;
     gs.victoryText =
       (gs.players[0].score > gs.players[1].score
         ? gs.players[0].name
