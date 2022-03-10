@@ -1,0 +1,4 @@
+following tutorial on youtube
+CRUD with Blazor in .NET 6 🔥 Full-Stack with a Web API, Entity Framework Core & SQL Server Express
+
+https://www.youtube.com/watch?v=K_P-qJj_8Bg

@@ -1,0 +1,36 @@
+﻿@page "/hero"
+@page "/hero/{id:int}"
+@using BlazorFullStackCrud.Shared
+@inject ISuperHeroService SuperHeroService
+
+@if (Id == null) 
+{
+<PageTitle>Create a new Super Hero</PageTitle>
+<h3>Create a new Super Hero</h3>
+}
+else {
+
+<PageTitle>Edit @hero.HeroName</PageTitle>
+<h3>Edit @hero.HeroName</h3>
+}
+<h3>Hero</h3>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    SuperHero hero = new SuperHero {Comic = new Comic()};
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+
+        }
+        else
+        {
+            hero = await SuperHeroService.GetSingleHero((int)Id);
+        }
+    }
+
+}
