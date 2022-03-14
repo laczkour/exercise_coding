@@ -17,18 +17,19 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var hero in SuperHeroService.Heroes)
-        {
-            <tr>
-                <td>@hero.FirstName</td>
-                <td>@hero.LastName</td>
-                <td>@hero.HeroName</td>
-                <td>@hero.Comic?.Name</td>
-                <td><button class="btn btn-primary" @onclick="() => ShowHero(hero.Id)"><i class="oi oi-pencil"></i></button></td>
-            </tr>
-        }
+    @foreach (var hero in SuperHeroService.Heroes)
+    {
+        <tr>
+            <td>@hero.FirstName</td>
+            <td>@hero.LastName</td>
+            <td>@hero.HeroName</td>
+            <td>@hero.Comic?.Name</td>
+            <td><button class="btn btn-primary" @onclick="() => ShowHero(hero.Id)"><i class="oi oi-pencil"></i></button></td>
+        </tr>
+    }
     </tbody>
 </table>
+<button class="btn btn-primary" @onclick="CreateNewHero">Create New Hero</button>
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -39,6 +40,11 @@
     private void ShowHero(int heroId)
     {
         NavigationManager.NavigateTo($"hero/{heroId}");
+    }
+
+    private void CreateNewHero()
+    {
+        NavigationManager.NavigateTo("/hero");
     }
 
 }
