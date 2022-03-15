@@ -1,0 +1,206 @@
+.background {
+    background-image: url("/public/subtle-prism.svg");
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+    z-index: -1;
+}
+
+main {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    -webkit-animation: introLoad 1.5s forwards;
+    animation: introLoad 1.5s forwards;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-style: normal;
+}
+
+.game-board {
+    border: double gray;
+    background-color: #eeffff;
+    padding: 1em;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.victory-text {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.game-board.second-player {
+    background-color: #ffeeee;
+}
+
+.game-row {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-evenly;
+}
+
+.game-square {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 1em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 1em;
+    margin: -0.5px;
+    background-color: white;
+}
+
+.restart {
+    padding: 5px;
+    margin-top: 5em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    /* padding: 1em;*/
+    text-align: center;
+    border-radius: 1em;
+    background-color: rgb(219, 219, 219);
+}
+
+.restart button {
+    margin-left: 10px;
+    display: flex;
+    flex-grow: 3;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+    padding: 1em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 1em;
+    background-color: white;
+}
+
+.restart button:hover,
+button:focus {
+    background-color: rgb(69, 208, 233);
+}
+
+.restart input {
+    font-size: 1.5rem;
+    margin-left: 20px;
+    flex-grow: 1;
+    width: 100px;
+}
+
+.game-square.positive {
+    color: #000000;
+}
+
+.game-square.negative {
+    color: #ff0000;
+}
+
+.game-square:hover {
+    background-color: rgb(157, 219, 230);
+}
+
+.game-board.second-player .game-square:hover {
+    background-color: rgb(230, 157, 157);
+}
+
+.game-square.invalid {
+    background-color: grey !important;
+    cursor: default;
+}
+
+.game-square.used {
+    visibility: hidden;
+}
+
+.players {
+    display: flex;
+    justify-content: space-between;
+}
+
+.player {
+    margin-left: -2px;
+    flex: 0 0 40%;
+    font-size: 1.2 rem;
+    background-color: #eeeeee;
+}
+
+.player .score {
+    padding-left: 1em;
+}
+
+.player .next {
+    margin-top: 0.2em;
+    text-align: center;
+    font-size: 1.7rem;
+    font-style: italic;
+    background-color: #dddddd;
+}
+
+.player h1 {
+    padding-left: 1em;
+    font-size: 1.5rem;
+    color: rgb(233, 69, 69);
+}
+
+.player.first-player h1 {
+    color: rgb(69, 208, 233);
+}
+
+@keyframes introLoad {
+    from {
+        -webkit-clip-path: circle(0% at 50% 50%);
+        clip-path: circle(0% at 50% 50%);
+    }
+    to {
+        -webkit-clip-path: circle(100% at 50% 50%);
+        clip-path: circle(100% at 50% 50%);
+    }
+}
+
+@media only screen and (min-width: 420px) and (max-width: 540px) {
+    .game-board {
+        width: 400px;
+        height: 400px;
+        padding: 0.5em;
+    }
+    .game-square {
+        padding: 0.5em;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .game-board {
+        width: 300px;
+        height: 300px;
+        padding: 3px;
+    }
+
+    .game-square {
+        padding: 0.1em;
+    }
+}
