@@ -16,21 +16,23 @@ const template = [
 
 const update = (state, setState) => {
     const newState = {...state.current}
-    if (newState.hello === undefined) {
-        newState.hello = 0;
-        newState.resources = {Scrap: 0};
+
+    for (let i = 0; newState.resources.length - 1 > i; i++) {
+        newState.resources[i] += newState.resources[i+1];
     }
+    console.log(newState)
+    console.log(template.length, newState.resources.length, newState.resources[newState.resources.length-1] * 2)
 
-    newState.scrap += newState.scavanger;
-    newState.hello += 1
-    console.log(newState.hello)
-
+    if (template.length > newState.resources.length  &&
+        newState.resources[newState.resources.length-1] * 2 > template[newState.resources.length].cost) {
+        newState.resources[newState.resources.length] = 0;
+    }
     setState(newState);
 }
 
 
 function App() {
-    const [state, setState] = useState(null)
+    const [state, setState] = useState({resources : [0]})
     const stateRef = useRef(null);
 
     stateRef.current = state;
@@ -41,33 +43,34 @@ function App() {
         return () => clearTimeout(interval);
     }, []);
 
-    const action = (actionType) => {
+    const action = (actionIndex, count = 1) => {
         const newState = {...state}
-        if (actionType === "scavange") {
-            newState.scrap++
-        }
-        if (actionType === "build scavanger") {
-            if (newState.scrap > 20) {
-                newState.scrap -= 20;
-                newState.scavanger += 1;
+        if (actionIndex === 0) {
+            newState.resources[0]+=count;
+        } else {
+            console.log(actionIndex, count, newState.resources[actionIndex-1])
+            if (newState.resources[actionIndex-1] >= template[actionIndex].cost * count) {
+                newState.resources[actionIndex-1] -= template[actionIndex].cost * count;
+                newState.resources[actionIndex]+=count;
             }
         }
-
         setState(newState)
     }
 
     return (
         <div className="background">
             <div className="main">
-                {template.map(resource => {
-                    if (state?.resources[resource.name] != null) {
-                        const count = state?.resources[resource.name].count
+                {template.map((resource, index) => {
+                    if (state?.resources[index] !== undefined) {
+                        const count = state?.resources[index]
                        // const {name, actionName} = resource
 
-                        return (<div>
-                            <button onClick={() => action("scavange")}>{resource.actionName}</button>
-                            <span>{resource.name}: <span>{count}</span></span>
+                        return (<div key = {"_"+index}>
+                            <button onClick={() => action(index)}>{template[index].actionName}</button>
+                            <span>{template[index].name}: <span>{count}</span></span>
                         </div>)
+                    } else {
+                        return "";
                     }
                 })}
             </div>
