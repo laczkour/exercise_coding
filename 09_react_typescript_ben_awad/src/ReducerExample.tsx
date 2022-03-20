@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 
-type Action =
+type Actions =
   | {
       type: 'add';
       text: string;
@@ -17,7 +17,7 @@ interface Todo {
 
 type State = Todo[];
 
-const TodoReducer = (state: State, action: Action) => {
+const TodoReducer = (state: State, action: Actions) => {
   switch (action.type) {
     case 'add':
       return [...state, { text: action.text, complete: false }];
@@ -29,5 +29,19 @@ const TodoReducer = (state: State, action: Action) => {
 };
 
 export const ReducerExample: React.FC = () => {
-  return <div></div>;
+  const [todos, dispatch] = useReducer(TodoReducer, []);
+
+  return (
+    <div>
+      {JSON.stringify(todos)}
+      <button
+        onClick={() => {
+          dispatch({ type: 'add', text: '...' });
+          dispatch({ type: 'remove', idx: 5 });
+        }}
+      >
+        +
+      </button>
+    </div>
+  );
 };
