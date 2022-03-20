@@ -86,6 +86,47 @@ h1 {
     background-color: rgb(219, 219, 219);
 }
 
+.hidden {
+    display: none;
+}
+
+.resource {
+    display: flex;
+}
+
+.count-div {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    background: #eeeeee;
+    border: 1px solid #000000;
+}
+.count-div > div {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.victory-div {
+    position: absolute;
+    top: calc(50% - 30px);
+    left: calc(50% - 150px);
+    width: 300px;
+    height: 60px;
+    background: lightblue;
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
+}
+
+.buy-buttons {
+    width: 500px;
+    display: flex;
+ }
+
+.first-buy {
+    flex-grow: 1;
+}
+
 .restart button {
     margin-left: 10px;
     display: flex;
