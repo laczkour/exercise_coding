@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Memory Game</title>
   </head>
-  <body style="font-size: 10em">
-    <div id="game-area" onclick="solutionAreaClick()">
+  <body>
+    <div style="font-size: 10em" id="game-area" onclick="solutionAreaClick()">
+      <div style="font-size: 0.1em" id="level-announcement-area"></div>
       <div id="solution-area"></div>
       <div id="options-area"></div>
     </div>
@@ -55,7 +56,8 @@
         get: (searchParams, prop) => searchParams.get(prop),
       });
       var level = parseInt(params.level) || 1;
-
+      document.getElementById('level-announcement-area').innerText =
+        'level: ' + level;
       var gameStarted = false;
 
       var solutionLength = Math.floor((level + 9) / 4) || 2;
@@ -125,7 +127,8 @@
         }
 
         if (win !== null && clickedOnceAfterGame) {
-          var newLevel = level + parseInt(win ? 1 : 0);
+          var newLevel = Math.max(level + parseInt(win ? 1 : -1), 1);
+
           //https://stackoverflow.com/questions/3281020/jquery-javascript-reload-current-page-with-an-appended-querystring
           window.location.href =
             window.location.protocol +
