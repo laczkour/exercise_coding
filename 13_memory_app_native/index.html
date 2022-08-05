@@ -31,6 +31,20 @@
         '🌽',
         '🥑',
         '🥕',
+        '🍚',
+        '🥞',
+        '🌭',
+        '🍳',
+        '🍩',
+        '🍨',
+        '🧆',
+        '🍪',
+        '🍰',
+        '🥧',
+        '🍫',
+        '🍬',
+        '🍭',
+        '🧃',
       ];
       var questionMarkSymbol = '❓';
       var gameArea = document.getElementById('game-area');
@@ -40,11 +54,11 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      let level = params.level;
+      var level = parseInt(params.level) || 1;
 
       var gameStarted = false;
 
-      var solutionLength = parseInt(level) || 2;
+      var solutionLength = Math.floor((level + 9) / 4) || 2;
       var solution = [];
       var solutionText = '';
       var win = null;
@@ -58,10 +72,12 @@
 
       query = [];
       //https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-      var options = solution
-        .map((value) => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
+      do {
+        var options = solution
+          .map((value) => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value);
+      } while (solutionLength > 2 && options[0] == solution[0]);
 
       var refreshSolutionAreaWithQuery = () => {
         console.log(query);
@@ -109,8 +125,8 @@
         }
 
         if (win !== null && clickedOnceAfterGame) {
-          var newLevel = solutionLength + parseInt(win ? 1 : 0);
-
+          var newLevel = level + parseInt(win ? 1 : 0);
+          //https://stackoverflow.com/questions/3281020/jquery-javascript-reload-current-page-with-an-appended-querystring
           window.location.href =
             window.location.protocol +
             '//' +
