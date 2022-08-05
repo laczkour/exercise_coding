@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="font-size: 10em">
+    <div id="game-area" onclick="solutionAreaClick()">
+      <div id="solution-area"></div>
+      <div id="options-area"></div>
+    </div>
+
+    <script>
+      var symbols = [
+        '🍇',
+        '🍎',
+        '🍏',
+        '🍔',
+        '🍕',
+        '🍟',
+        '🥩',
+        '☕',
+        '🍵',
+        '🍺',
+        '🍹',
+        '🍒',
+        '🍓',
+        '🍅',
+        '🌽',
+        '🥑',
+        '🥕',
+      ];
+      var questionMarkSymbol = '❓';
+      var gameArea = document.getElementById('game-area');
+      var solutionArea = document.getElementById('solution-area');
+      var optionsArea = document.getElementById('options-area');
+      //https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      let level = params.level;
+
+      var gameStarted = false;
+
+      var solutionLength = parseInt(level) || 2;
+      var solution = [];
+      var solutionText = '';
+      var win = null;
+      var clickedOnceAfterGame = false;
+      for (var i = 0; i < solutionLength; i++) {
+        var rand = Math.floor(Math.random() * symbols.length);
+        solution.push(symbols[rand]);
+        solutionText += symbols[rand];
+      }
+      solutionArea.innerText = solutionText;
+
+      query = [];
+      //https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+      var options = solution
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+
+      var refreshSolutionAreaWithQuery = () => {
+        console.log(query);
+        var text = query.reduce((a, b) => a + b, '');
+        text += questionMarkSymbol.repeat(solutionLength - query.length);
+        solutionArea.innerText = text;
+      };
+
+      var addSymbolToOptionsArea = (symbol) => {
+        //https://stackoverflow.com/questions/14004117/create-div-and-append-div-dynamically
+        var iDiv = document.createElement('div');
+        iDiv.innerText = symbol;
+        iDiv.style = 'display:inline;';
+        iDiv.onclick = () => {
+          query.push(symbol);
+          optionsArea.removeChild(iDiv);
+          refreshSolutionAreaWithQuery();
+          if (query.length == solution.length) {
+            win = true;
+            var i = 0;
+            while (win && i < query.length) {
+              console.log(i);
+              if (query[i] != solution[i]) {
+                win = false;
+              }
+              i++;
+            }
+            var text = solutionArea.innerText;
+            text += '<br />' + solutionText + '<br />';
+            text += win ? 'You Won!' : 'You Lose!';
+            solutionArea.innerHTML = text;
+          }
+        };
+
+        optionsArea.appendChild(iDiv);
+      };
+
+      var solutionAreaClick = () => {
+        if (!gameStarted) {
+          gameStarted = true;
+          solutionArea.innerText = questionMarkSymbol.repeat(solutionLength);
+          options.forEach((element) => {
+            addSymbolToOptionsArea(element);
+          });
+        }
+
+        if (win !== null && clickedOnceAfterGame) {
+          var newLevel = solutionLength + parseInt(win ? 1 : 0);
+
+          window.location.href =
+            window.location.protocol +
+            '//' +
+            window.location.host +
+            window.location.pathname +
+            '?level=' +
+            newLevel;
+        }
+        if (win !== null) {
+          clickedOnceAfterGame = true;
+        }
+      };
+    </script>
+  </body>
+</html>
